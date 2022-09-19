@@ -8,19 +8,29 @@ export const StoryForm = () => {
         // default values.
     const [currentStory, setCurrentStory] = useState({
         title: "",
-        startSceneName: "",
-        startSceneText: ""
+        startScene: 1
     })
 
-    useEffect(() => {
-        getScenes().then(data => setScenes(data))
-    }, [])
+    const [currentScene, setCurrentScene] = useState({
+        name:"Opening",
+        sceneText:""
+    })
 
     const changeCurrentStoryState = (domEvent) => {
         const copy = { ...currentStory }
         copy[domEvent.target.name] = domEvent.target.value
         setCurrentStory(copy)
     }
+
+    const changeCurrentSceneState = (domEvent) => {
+        const copy = { ...currentScene }
+        copy[domEvent.target.name] = domEvent.target.value
+        setCurrentScene(copy)
+    }
+
+    useEffect(() => {
+        getScenes().then(data => setScenes(data))
+    }, [])
 
     return (
         <form className="gameForm">
@@ -37,17 +47,17 @@ export const StoryForm = () => {
 
             <fieldset>
                 <div className="form-group"></div>
-                    <label htmlFor="startSceneName">Starting Scene Name: </label>
-                    <input type="text" name="startSceneName" required className="form-control"
-                        value={currentStory.startSceneName}
-                        onChange={changeCurrentStoryState} />
+                    <label htmlFor="name">Starting Scene Name: </label>
+                    <input type="text" name="name" required className="form-control"
+                        value={currentScene.name}
+                        onChange={changeCurrentSceneState} />
             </fieldset>
             <fieldset>
                 <div className="form-group"></div>
-                    <label htmlFor="startSceneText">Scene Text: </label>
-                    <input type="text" name="startSceneText" required className="form-control"
-                        value={currentStory.startSceneText}
-                        onChange={changeCurrentStoryState} />
+                    <label htmlFor="sceneText">Scene Text: </label>
+                    <input type="text" name="sceneText" required className="form-control"
+                        value={currentScene.sceneText}
+                        onChange={changeCurrentSceneState} />
             </fieldset>
 
             <button type="submit"
@@ -58,13 +68,13 @@ export const StoryForm = () => {
                     const story = {
 
                         title: currentStory.title,
-                        startSceneName: currentStory.startSceneName,
-                        startSceneText: currentStory.startSceneText
+                        name: currentScene.name,
+                        sceneText: currentScene.sceneText
                     }
 
                     // Send POST request to your API
                     createStory(story)
-                        .then(() => navigate("/stories"))
+                        .then((newStory) => navigate(`/scenes/${newStory.id}/new`))
                 }}
                 className="btn btn-primary">Create</button>
         </form>

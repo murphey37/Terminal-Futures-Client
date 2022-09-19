@@ -1,5 +1,5 @@
-export const getScenes = () => {
-    return fetch("http://localhost:8000/scenes", {
+export const getScenes = (storyId) => {
+    return fetch(`http://localhost:8000/scenes?story=${storyId}`, {
         headers:{
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
         }
@@ -16,7 +16,7 @@ export const createScene = Scene => {
         },
         body: JSON.stringify(Scene)
         })
-        .then(getScenes)
+        .then(response => response.json())
 }
 
 export const getStories = () => {

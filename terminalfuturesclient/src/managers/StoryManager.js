@@ -8,7 +8,7 @@ export const getStories = () => {
 }
 
 export const createStory = Story => {
-    return fetch("http://localhost:8000/scenes", {
+    return fetch("http://localhost:8000/stories", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -16,7 +16,7 @@ export const createStory = Story => {
         },
         body: JSON.stringify(Story)
         })
-        .then(getStories)
+        .then(response => response.json())
 }
 
 export const getScenes = () => {
@@ -29,7 +29,7 @@ export const getScenes = () => {
 }
 
 export const updateStory = story => {
-    return fetch(`http://localhost:8000/storys/${story.id}`, {
+    return fetch(`http://localhost:8000/stories/${story.id}`, {
         method: "PUT",
         headers: {
         "Content-Type": "application/json",

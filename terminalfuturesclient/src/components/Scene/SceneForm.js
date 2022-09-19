@@ -1,26 +1,49 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { createScene, getStories, getScenes } from '../../managers/SceneManager.js'
+import { createSceneLink } from "../../managers/SceneLinkManager.js"
 
 export const SceneForm = () => {
     const navigate = useNavigate()
     const [stories, setStories] = useState([])
+    const [scenes, setScenes] = useState([])
         // default values.
+
+    const {storyId} = useParams()
+
     const [currentScene, setCurrentScene] = useState({
         name: "",
         sceneText: "",
-        actionText: ""
+        story: storyId
+    })
+
+    const [currentSceneLink, setCurrentSceneLink] = useState({
+        scene:null,//how do I populate this?
+        action: "",
+        challengeText:"",
+        challengeAnswer:"",
+        failScene:null,
+        nextScene:null
+
                     //Do I need to set the story here?
     })
 
+
+
     useEffect(() => {
-        getScenes().then(data => setScenes(data))
+        getScenes(storyId).then(data => setScenes(data))
     }, [])
 
     const changeCurrentSceneState = (domEvent) => {
         const copy = { ...currentScene }
         copy[domEvent.target.name] = domEvent.target.value
         setCurrentScene(copy)
+    }
+
+    const changeCurrentSceneLinkState = (domEvent) => {
+        const copy = { ...currentSceneLink }
+        copy[domEvent.target.name] = domEvent.target.value
+        setCurrentSceneLink(copy)
     }
 
     return (
@@ -45,22 +68,22 @@ export const SceneForm = () => {
             </fieldset>
             <fieldset>
                 <div className="form-group"></div>
-                    <label htmlFor="actionText">Action Text: </label>
-                    <input type="text" name="actionText" required className="form-control"
-                        value={currentStory.actionText}
-                        onChange={changeCurrentSceneState} />
+                    <label htmlFor="action">Action Text: </label>
+                    <input type="text" name="action" required className="form-control"
+                        value={currentSceneLink.action}
+                        onChange={changeCurrentSceneLinkState} />
             </fieldset>
             <fieldset>
                 <div className="form-group"></div>
-                    <label htmlFor="sceneId">Scene to Link: </label>
+                    <label htmlFor="nextScene">Scene to Link: </label>
                     <select onChange={
                             (evt) => {
-                                changeCurrentSceneState(evt)
+                                changeCurrentSceneLinkState(evt)
                             }                                        
-                        }name="sceneId">
+                        }name="nextScene">
                         {
                             scenes.map(s => {
-                                return <option value={s.id}>{gt.name}</option>
+                                return <option value={s.id}>{s.name}</option>
                             })
 
                         }
@@ -73,15 +96,32 @@ export const SceneForm = () => {
                     // Prevent form from being submitted
                     evt.preventDefault()
 
-                    const story = {
+                    const sceneLink = {
+                        scene:currentScene.id,
+                        action:currentSceneLink.action,
+                        nextScene:currentSceneLink.nextScene
+                    }
+
+                    // Send POST request to your API
+                    createSceneLink(sceneLink)
+                        // .then(() => navigate("/scenes/new"))
+                }}
+                className="btn btn-primary">Link Scene</button>
+
+            <button type="submit"
+                onClick={evt => {
+                    // Prevent form from being submitted
+                    evt.preventDefault()
+
+                    const scene = {
                         name: currentScene.name,
                         sceneText: currentScene.sceneText,
-                        actionText: currentScene.actionText
+                        story:currentScene.story
                     }
 
                     // Send POST request to your API
                     createScene(scene)
-                        .then(() => navigate("/scenes/new"))
+                        .then(() => window.location.reload())
                 }}
                 className="btn btn-primary">Add Scene</button>
         </form>

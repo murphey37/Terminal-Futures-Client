@@ -15,7 +15,7 @@ export const ApplicationViews = () => {
             <Route element={<Authorized />}>
                 <Route path="/stories" element={<StoryList />} />
                 <Route path="/stories/new" element={<StoryForm />} />
-                <Route path="/scenes/new" element={<SceneForm />} />
+                <Route path="/scenes/:storyId/new" element={<SceneForm />} />
                 {/* <Route path="/stories/:storyId/update" element={<StoryUpdate />} />  */}
             </Route>
         </Routes>
