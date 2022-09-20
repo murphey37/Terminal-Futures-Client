@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from 'react-router-dom'
-import { createScene, getStories, getScenes } from '../../managers/SceneManager.js'
-import { createSceneLink } from "../../managers/SceneLinkManager.js"
+import { createScene, getStories, getScenes, getScene, updateScene } from '../../managers/SceneManager.js'
+import { createSceneLink, deleteSceneLink, getSceneLinks, updateSceneLink } from "../../managers/SceneLinkManager.js"
 
 export const SceneForm = () => {
     const navigate = useNavigate()
     const [stories, setStories] = useState([])
     const [scenes, setScenes] = useState([])
+    const [scene, setScene] = useState([])
+    const [sceneLinks, setSceneLinks] = useState([])
         // default values.
 
-    const {storyId} = useParams()
+    const {storyId, sceneId} = useParams()
 
     const [currentScene, setCurrentScene] = useState({
         name: "",
         sceneText: "",
-        story: storyId
+        story: storyId,
+        links:[]
     })
 
     const [currentSceneLink, setCurrentSceneLink] = useState({
@@ -32,7 +35,42 @@ export const SceneForm = () => {
 
     useEffect(() => {
         getScenes(storyId).then(data => setScenes(data))
-    }, [])
+    }, [sceneId, storyId])
+
+    useEffect(() => {
+        if (sceneId=="new")
+        
+        {setSceneLinks([])
+            console.log("Blank values")
+            setCurrentScene({
+                name: "",
+                sceneText: "",
+                story: storyId
+        })}
+            else {
+        getScene(sceneId).then(data => 
+            {console.log(data)
+                setCurrentScene({
+                    name: data.name,
+                    sceneText: data.sceneText,
+                    story: data.story.id
+                })
+            })
+            .then(() => getSceneLinks(sceneId))
+            .then(data => {console.log(data)
+                setSceneLinks(data.map((sceneLink) => {
+                    return {scene:sceneId,
+                            action: sceneLink.action,
+                            challengeText:sceneLink.challengeText,
+                            challengeAnswer:sceneLink.challengeAnswer,
+                            failScene:sceneLink.failScene?.id || null,
+                            nextScene:sceneLink.nextScene.id}
+                }))
+            })
+    }
+}, 
+[sceneId, storyId])
+
 
     const changeCurrentSceneState = (domEvent) => {
         const copy = { ...currentScene }
@@ -40,11 +78,20 @@ export const SceneForm = () => {
         setCurrentScene(copy)
     }
 
-    const changeCurrentSceneLinkState = (domEvent) => {
-        const copy = { ...currentSceneLink }
-        copy[domEvent.target.name] = domEvent.target.value
-        setCurrentSceneLink(copy)
+    const changeCurrentSceneLinkState = (domEvent, index) => {
+        // const copy = { ...currentSceneLink }
+        // copy[domEvent.target.name] = domEvent.target.value
+        // setCurrentSceneLink(copy)
+        setSceneLinks(sceneLinks => sceneLinks.map(
+                    (sceneLink, i) => {
+                        if (i == index) {
+                            sceneLink[domEvent.target.name] = domEvent.target.value
+                        } return sceneLink
+                    }
+        ))
     }
+
+    console.log(sceneLinks)
 
     return (
         <form className="sceneForm">
@@ -66,19 +113,42 @@ export const SceneForm = () => {
                         value={currentScene.sceneText}
                         onChange={changeCurrentSceneState} />
             </fieldset>
-            <fieldset>
+
+            <button className="btn btn-2 btn-sep icon-create"
+                            onClick={() => {
+                                setSceneLinks(
+                                    sceneLinks => 
+                                        [{scene:sceneId,
+                                        action: "",
+                                        challengeText:"",
+                                        challengeAnswer:"",
+                                        failScene:null,
+                                        nextScene:null},...sceneLinks]
+                                    
+                                )
+                        }}
+                            >New SceneLink</button>
+
+            {sceneLinks.map((sceneLink, index) => {
+
+                return (<React.Fragment key={index}>
+                    <fieldset>
                 <div className="form-group"></div>
                     <label htmlFor="action">Action Text: </label>
                     <input type="text" name="action" required className="form-control"
-                        value={currentSceneLink.action}
-                        onChange={changeCurrentSceneLinkState} />
+                        value={sceneLink.action}
+                        onChange={
+                            (evt) => {
+                                changeCurrentSceneLinkState(evt, index)
+                            }                                        
+                        } />
             </fieldset>
             <fieldset>
                 <div className="form-group"></div>
                     <label htmlFor="nextScene">Scene to Link: </label>
                     <select onChange={
                             (evt) => {
-                                changeCurrentSceneLinkState(evt)
+                                changeCurrentSceneLinkState(evt, index)
                             }                                        
                         }name="nextScene">
                         {
@@ -88,10 +158,24 @@ export const SceneForm = () => {
 
                         }
                         </select>
+
+                        <button className="btn btn-2 btn-sep icon-create"
+                            onClick={() => {
+                                setSceneLinks(sceneLinks => {sceneLinks.splice(index)
+                                                return [...sceneLinks]})
+                        }}
+                            >Delete SceneLink</button>
                         
             </fieldset>
+            </React.Fragment>
+                )
+            })
 
-            <button type="submit"
+            }
+
+            
+
+            {/* <button type="submit"
                 onClick={evt => {
                     // Prevent form from being submitted
                     evt.preventDefault()
@@ -106,7 +190,7 @@ export const SceneForm = () => {
                     createSceneLink(sceneLink)
                         // .then(() => navigate("/scenes/new"))
                 }}
-                className="btn btn-primary">Link Scene</button>
+                className="btn btn-primary">Save SceneLink</button> */}
 
             <button type="submit"
                 onClick={evt => {
@@ -118,12 +202,53 @@ export const SceneForm = () => {
                         sceneText: currentScene.sceneText,
                         story:currentScene.story
                     }
+                    const sceneLink = {
+                        scene:currentScene.id,
+                        action:currentSceneLink.action,
+                        nextScene:currentSceneLink.nextScene
+                    }
+                    if (sceneId=="new"){
+                        createScene(scene)
 
+                        .then((scene) => {
+                            console.log(sceneLinks)
+                        const sceneLinkUpdates = sceneLinks.map((sceneLink) => {
+                            sceneLink.scene = scene.id
+                            return  createSceneLink(sceneLink)
+                        })
+                            
+                        Promise.all(sceneLinkUpdates)
+                        return scene
+                    })
+
+                        
+
+                        .then(scene => {
+                            return navigate(`/scenes/${storyId}/${scene.id}`)})
+                    }
+                        else 
+                    {
+                            scene.id=sceneId
+                    updateScene(scene).then(() => deleteSceneLink(sceneId))
+                    .then(() => {
+                        console.log(sceneLinks)
+                    const sceneLinkUpdates = sceneLinks.map(createSceneLink)
+                        
+                    return Promise.all(sceneLinkUpdates)})
+                    
+                    .then(() => window.location.reload())
+                    
+                        }
+                }
                     // Send POST request to your API
-                    createScene(scene)
-                        .then(() => window.location.reload())
-                }}
-                className="btn btn-primary">Add Scene</button>
+                    
+                }
+                className="btn btn-primary">Save Scene</button>
+                <button className="btn btn-2 btn-sep icon-create"
+                            onClick={() => {
+                                navigate( `/scenes/${storyId}/new`)
+                        }}
+                            >New Scene</button>
         </form>
     )
 }

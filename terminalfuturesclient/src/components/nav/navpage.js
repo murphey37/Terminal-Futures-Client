@@ -7,10 +7,12 @@ export const NavPage = () => {
         <ul className="navbar">
             
             <li className="navbar__item">
-                BEGIN
-            </li>
-            <li className="navbar__item">
-                VIEW PROFILE
+                <button className="nav-link fakeLink"
+                            onClick={() => {
+
+                                navigate('/stories')
+                            }}
+                        >Back to Stories</button>
             </li>
             
             {

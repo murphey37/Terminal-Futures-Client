@@ -30,7 +30,7 @@ export const StoryList = (props) => {
                         <div className="story__title">{story.title}</div>
                         <button className="btn btn-2 btn-sep icon-create"
                             onClick={() => {
-                                navigate( `/stories/${story.id}/update`)
+                                navigate( `/scenes/${story.id}/new`)
                         }}
                             >Edit</button>
                         <button className="btn btn-2 btn-sep icon-create"

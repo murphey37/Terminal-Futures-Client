@@ -7,6 +7,15 @@ export const getScenes = (storyId) => {
         .then(response => response.json())
 }
 
+export const getScene = (sceneId) => {
+    return fetch(`http://localhost:8000/scenes/${sceneId}`, {
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
 export const createScene = Scene => {
     return fetch("http://localhost:8000/scenes", {
         method: "POST",

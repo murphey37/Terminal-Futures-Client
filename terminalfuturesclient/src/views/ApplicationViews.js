@@ -5,6 +5,10 @@ import { Authorized } from "./Authorized"
 import { StoryList } from "../components/Story/StoryList"
 import { StoryForm } from "../components/Story/StoryForm"
 import { SceneForm } from "../components/Scene/SceneForm"
+import { SceneList } from "../components/Scene/SceneList"
+import { SceneLayout } from "../components/Layout/SceneLayout"
+import { PlaythroughStory } from "../components/Playthrough/playthroughStory"
+import { PlaythroughScene} from "../components/Playthrough/playthroughScene"
 
 
 export const ApplicationViews = () => {
@@ -15,8 +19,9 @@ export const ApplicationViews = () => {
             <Route element={<Authorized />}>
                 <Route path="/stories" element={<StoryList />} />
                 <Route path="/stories/new" element={<StoryForm />} />
-                <Route path="/scenes/:storyId/new" element={<SceneForm />} />
-                {/* <Route path="/stories/:storyId/update" element={<StoryUpdate />} />  */}
+                <Route path="/scenes/:storyId/:sceneId" element={<SceneLayout />} />
+                <Route path="/playthrough/:storyId" element={<PlaythroughStory />} /> 
+                <Route path="/playthrough/:storyId/:sceneId" element={<PlaythroughScene />} />  
             </Route>
         </Routes>
     </>
