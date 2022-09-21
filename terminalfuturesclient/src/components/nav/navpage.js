@@ -5,7 +5,7 @@ export const NavPage = () => {
     const navigate = useNavigate()
     return (
         <ul className="navbar">
-            
+            {(localStorage.getItem("lu_token") !== null) ?
             <li className="navbar__item">
                 <button className="nav-link fakeLink"
                             onClick={() => {
@@ -13,7 +13,9 @@ export const NavPage = () => {
                                 navigate('/stories')
                             }}
                         >Back to Stories</button>
-            </li>
+            </li>:
+            <></>
+}
             
             {
                 (localStorage.getItem("lu_token") !== null) ?

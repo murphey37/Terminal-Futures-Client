@@ -59,12 +59,12 @@ export const SceneForm = () => {
             .then(() => getSceneLinks(sceneId))
             .then(data => {console.log(data)
                 setSceneLinks(data.map((sceneLink) => {
-                    return {scene:sceneId,
+                    return {scene:sceneId.toString(),
                             action: sceneLink.action,
                             challengeText:sceneLink.challengeText,
                             challengeAnswer:sceneLink.challengeAnswer,
-                            failScene:sceneLink.failScene?.id || null,
-                            nextScene:sceneLink.nextScene.id}
+                            failScene:sceneLink.failScene ? sceneLink.failScene.id.toString() : null,
+                            nextScene:sceneLink.nextScene.id.toString()}
                 }))
             })
     }
@@ -153,7 +153,47 @@ export const SceneForm = () => {
                         }name="nextScene">
                         {
                             scenes.map(s => {
-                                return <option value={s.id}>{s.name}</option>
+                                const selected = sceneLink.nextScene == s.id
+                                return <option value={s.id} selected={selected}>{s.name}</option>
+                            })
+
+                        }
+                        </select>
+
+                        <fieldset>
+                        <div className="form-group"></div>
+                            <label htmlFor="challengeText">Challenge Text: </label>
+                            <input type="text" name="challengeText" required className="form-control"
+                                value={sceneLink.challengeText}
+                                onChange={
+                                    (evt) => {
+                                        changeCurrentSceneLinkState(evt, index)
+                                    }                                        
+                                } />
+                        </fieldset>
+
+                        <fieldset>
+                            <div className="form-group"></div>
+                                <label htmlFor="challengeAnswer">Challenge Answer: </label>
+                                <input type="text" name="challengeAnswer" required className="form-control"
+                                    value={sceneLink.challengeAnswer}
+                                    onChange={
+                                        (evt) => {
+                                            changeCurrentSceneLinkState(evt, index)
+                                        }                                        
+                                    } />
+                        </fieldset>
+                        <div className="form-group"></div>
+                            <label htmlFor="failScene">Scene to Link on Failure: </label>
+                        <select onChange={
+                            (evt) => {
+                                changeCurrentSceneLinkState(evt, index)
+                            }                                        
+                        }name="failScene"> <option value={""}>Choose!</option>
+                        {
+                            scenes.map(s => {
+                                const selected = sceneLink.failScene == s.id
+                                return <option value={s.id} selected={selected}>{s.name}</option>
                             })
 
                         }
@@ -173,28 +213,25 @@ export const SceneForm = () => {
 
             }
 
-            
+            <button type="submit" disabled = {
+                    sceneLinks.some(sceneLink => {
+                        console.log(sceneLink.challengeAnswer)
+                        console.log(sceneLink.challengeText)
+                        console.log(sceneLink.failScene)
+                        console.log(!((!!sceneLink.challengeAnswer ==
+                            !!sceneLink.challengeText) ==
+                            (!!sceneLink.challengeAnswer ==
+                            !!sceneLink.failScene)))
+                        return !((!!sceneLink.challengeAnswer ==
+                        !!sceneLink.challengeText) ==
+                        (!!sceneLink.challengeAnswer ==
+                        !!sceneLink.failScene))
+                    })
 
-            {/* <button type="submit"
+                            }
                 onClick={evt => {
                     // Prevent form from being submitted
-                    evt.preventDefault()
 
-                    const sceneLink = {
-                        scene:currentScene.id,
-                        action:currentSceneLink.action,
-                        nextScene:currentSceneLink.nextScene
-                    }
-
-                    // Send POST request to your API
-                    createSceneLink(sceneLink)
-                        // .then(() => navigate("/scenes/new"))
-                }}
-                className="btn btn-primary">Save SceneLink</button> */}
-
-            <button type="submit"
-                onClick={evt => {
-                    // Prevent form from being submitted
                     evt.preventDefault()
 
                     const scene = {
@@ -211,9 +248,9 @@ export const SceneForm = () => {
                         createScene(scene)
 
                         .then((scene) => {
-                            console.log(sceneLinks)
                         const sceneLinkUpdates = sceneLinks.map((sceneLink) => {
                             sceneLink.scene = scene.id
+                            console.log(sceneLink)
                             return  createSceneLink(sceneLink)
                         })
                             
@@ -242,8 +279,8 @@ export const SceneForm = () => {
                 }
                     // Send POST request to your API
                     
-                }
-                className="btn btn-primary">Save Scene</button>
+                } 
+                className="btn btn-primary" >Save Scene</button>
                 <button className="btn btn-2 btn-sep icon-create"
                             onClick={() => {
                                 navigate( `/scenes/${storyId}/new`)

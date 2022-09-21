@@ -39,7 +39,13 @@ export const StoryList = (props) => {
                         .then(() => loadStories())
                         }}
                             >Delete Story</button>
+                            <button className="btn btn-2 btn-sep icon-create"
+                                onClick={() => {
+                                    navigate( `/playthrough/${story.id}`)
+                                }}
+                                    >Play Story</button>
                     </section>
+                    
                 })
             }
             

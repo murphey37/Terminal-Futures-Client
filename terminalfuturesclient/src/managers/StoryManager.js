@@ -7,6 +7,15 @@ export const getStories = () => {
         .then(response => response.json())
 }
 
+export const getStory = (story) => {
+    return fetch(`http://localhost:8000/stories/${story}`, {
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
 export const createStory = Story => {
     return fetch("http://localhost:8000/stories", {
         method: "POST",

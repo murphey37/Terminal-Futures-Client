@@ -5,8 +5,8 @@ import { NavPage } from './components/nav/navpage';
 
 export const App = () => (
   <>
-      <NavPage />
       <ApplicationViews />
+      <NavPage />
   </>
 )
 export default App
