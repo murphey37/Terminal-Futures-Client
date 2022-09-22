@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useNavigate, useParams } from 'react-router-dom'
 import { createScene, getStories, getScenes, getScene, updateScene } from '../../managers/SceneManager.js'
 import { createSceneLink, deleteSceneLink, getSceneLinks, updateSceneLink } from "../../managers/SceneLinkManager.js"
+import { Visualizer } from '../visualizer/visualizer.js'
 
 export const SceneForm = () => {
     const navigate = useNavigate()
@@ -93,7 +94,7 @@ export const SceneForm = () => {
 
     console.log(sceneLinks)
 
-    return (
+    return (<>
         <form className="sceneForm">
             <h2 className="sceneForm__name">New Scene</h2>
             <fieldset>
@@ -287,5 +288,8 @@ export const SceneForm = () => {
                         }}
                             >New Scene</button>
         </form>
+
+        
+        </>
     )
 }
