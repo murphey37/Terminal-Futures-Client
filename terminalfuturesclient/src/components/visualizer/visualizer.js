@@ -35,8 +35,10 @@ const Mermaid = ({ chart }) => {
   
       mermaid.contentLoaded();
       node.removeAttribute("data-processed");
+      return () => node && node.remove();
     });
     if (!chart) return null;
+    console.log(chart)
     return (
       <div ref={(e) => (node = e)} className="mermaid">
         {chart}

@@ -30,7 +30,8 @@ export const SceneList = (props) => {
 
                         <button className="btn btn-2 btn-sep icon-create"
                             onClick={() => {
-                                navigate( `/scenes/${scene.story.id}/${scene.id}`)
+                                // navigate( `/scenes/${scene.story.id}/${scene.id}`);
+                                window.location.href = `/scenes/${scene.story.id}/${scene.id}`
                         }}
                             >Jump Here</button>
                         <button className="btn btn-2 btn-sep icon-create"

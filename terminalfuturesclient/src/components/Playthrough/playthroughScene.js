@@ -1,6 +1,7 @@
 import { getScene } from '../../managers/SceneManager.js'
 import { useNavigate, useParams } from 'react-router-dom'
 import {useEffect, useState } from 'react'
+import './playthrough.css'
 
 export const PlaythroughScene = () => {
 
