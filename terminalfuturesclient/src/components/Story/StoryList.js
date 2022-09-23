@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { getStories, deleteStory } from "../../managers/StoryManager.js"
 import { useNavigate } from "react-router-dom"
+import './Story.css'
 
 export const StoryList = (props) => {
     const [ stories, setStories ] = useState([])

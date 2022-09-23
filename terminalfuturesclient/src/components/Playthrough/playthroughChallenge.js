@@ -25,7 +25,7 @@ export const PlaythroughChallenge = () => {
     }, [sceneLinkId])
 console.log(sceneLink)
 return (<>
-
+        <main className="playthroughChallenge">
         <fieldset>
                             <div className="form-group"></div>
                                 <label htmlFor="challengeAnswer">{sceneLink.challengeText}</label>
@@ -49,7 +49,7 @@ return (<>
                                 }}
                                     >Submit</button>
                                 }
-        
+        </main>
         </>
 )
 

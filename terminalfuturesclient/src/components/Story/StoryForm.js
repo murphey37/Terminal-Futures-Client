@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from 'react-router-dom'
 import { createStory, getScenes } from '../../managers/StoryManager.js'
+import './Story.css'
 
 export const StoryForm = () => {
     const navigate = useNavigate()
