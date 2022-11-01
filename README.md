@@ -9,13 +9,22 @@ Terminal Futures allows users to create and read through interactive, branching 
 
 Clone the repository `git clone git@github.com:murphey37/Terminal-Futures-Client.git`
 
-cd into the corresponding directory `cd Terminal-Futures-Client`
+cd into the corresponding directory `cd Terminal-Futures-Client/terminalfuturesclient`
 
 `npm install`
 
 Server side of for the project located at [Server Side](https://github.com/murphey37/Terminal-Futures-Server) with instructions to clone and run
 
 `npm start`
+
+**Login**
+
+
+You may create a new profile, or use
+
+username **NewUser** 
+pswrd **Herewego!**
+
 
 **Tech Stack**
 
