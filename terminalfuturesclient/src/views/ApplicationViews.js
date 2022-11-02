@@ -15,7 +15,7 @@ import { PlaythroughChallenge } from "../components/Playthrough/playthroughChall
 export const ApplicationViews = () => {
     return <>
         <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} /> 
             <Route path="/register" element={<Register />} />
             <Route element={<Authorized />}>
                 <Route path="/stories" element={<StoryList />} />
@@ -29,9 +29,3 @@ export const ApplicationViews = () => {
     </>
 }
 
-{/* <Route path="/games" element={<GameList />} />
-                <Route path="/events" element={<EventList />} />
-                <Route path="/games/new" element={<GameForm />} />
-                <Route path="/events/new" element={<EventForm />} />
-                <Route path="/games/:gameId/update" element={<GameUpdate />} />
-                <Route path="/events/:eventId/update" element={<EventUpdate />} /> */}

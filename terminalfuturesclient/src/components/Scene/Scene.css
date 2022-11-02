@@ -1,14 +1,32 @@
-body {background-color: rgb(196, 223, 244);}
+
 
 .h2, h2 {
     font-size: 2.5rem;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.h1, h1 {
+    font-size: 2.5rem;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .label, label {
     font-size: 2.5rem;
-    font-family: 'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
+
+.sceneForm{
+    display: flex;
+justify-content: space-between;
+flex-direction: column;
+
+}
+
+.scene__name{
+    font-size: 2.5rem;
+    font-family:'Gill Sans', 'Gill Sans MT', 'Calibri', 'Trebuchet MS', sans-serif;
+}
+
 
 .playthroughScene{
     top: 20%;
@@ -51,6 +69,7 @@ body {background-color: rgb(196, 223, 244);}
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
+  justify-content: center;
 }
 
 .btn-2:hover {

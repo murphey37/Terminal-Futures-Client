@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react"
 import { getScenes, deleteScene } from "../../managers/SceneManager"
 import { getStories } from "../../managers/StoryManager"
 import { useNavigate, useParams } from "react-router-dom"
+import './Scene.css'
+
 
 export const SceneList = (props) => {
     const [ scenes, setScenes ] = useState([])

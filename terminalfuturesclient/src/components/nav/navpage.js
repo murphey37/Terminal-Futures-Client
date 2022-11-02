@@ -23,7 +23,7 @@ export const NavPage = () => {
                         <button className="nav-link fakeLink"
                             onClick={() => {
                                 localStorage.removeItem("lu_token")
-                                navigate('/login')
+                                navigate('/')
                             }}
                         >Logout</button>
                     </ul> :
@@ -32,6 +32,3 @@ export const NavPage = () => {
             </ul>
     )
 }
-{/* <li className="navbar__item">
-                <Link className="navbar__link" to="/events">Events</Link>
-            </li> */}

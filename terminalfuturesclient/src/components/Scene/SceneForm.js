@@ -96,7 +96,9 @@ export const SceneForm = () => {
 
     return (<>
         <form className="sceneForm">
+            <div>
             <h2 className="sceneForm__name">New Scene</h2>
+
             <fieldset>
                 <div className="form-group">
                     <label htmlFor="name">Scene Name: </label>
@@ -114,21 +116,8 @@ export const SceneForm = () => {
                         value={currentScene.sceneText}
                         onChange={changeCurrentSceneState} />
             </fieldset>
-
-            <button className="btn btn-2 btn-sep icon-create"
-                            onClick={() => {
-                                setSceneLinks(
-                                    sceneLinks => 
-                                        [{scene:sceneId,
-                                        action: "",
-                                        challengeText:"",
-                                        challengeAnswer:"",
-                                        failScene:null,
-                                        nextScene:null},...sceneLinks]
-                                    
-                                )
-                        }}
-                            >New SceneLink</button>
+            </div>
+            
 
             {sceneLinks.map((sceneLink, index) => {
 
@@ -214,6 +203,22 @@ export const SceneForm = () => {
 
             }
 
+            <div >
+            <button className="btn btn-2 btn-sep icon-create"
+                            onClick={() => {
+                                setSceneLinks(
+                                    sceneLinks => 
+                                        [{scene:sceneId,
+                                        action: "",
+                                        challengeText:"",
+                                        challengeAnswer:"",
+                                        failScene:null,
+                                        nextScene:null},...sceneLinks]
+                                    
+                                )
+                        }}
+                            >New SceneLink</button>
+
             <button type="submit" disabled = {
                     sceneLinks.some(sceneLink => {
                         console.log(sceneLink.challengeAnswer)
@@ -281,14 +286,15 @@ export const SceneForm = () => {
                     // Send POST request to your API
                     
                 } 
-                className="btn btn-primary" >Save Scene</button>
+                className="btn btn-2 btn-sep icon-create" >Save Scene</button>
                 <button className="btn btn-2 btn-sep icon-create"
                             onClick={() => {
                                 navigate( `/scenes/${storyId}/new`)
                         }}
                             >New Scene</button>
+                            </div>
         </form>
-
+                        
         
         </>
     )
