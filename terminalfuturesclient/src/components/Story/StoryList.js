@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { getStories, deleteStory } from "../../managers/StoryManager.js"
 import { useNavigate } from "react-router-dom"
+import './Story.css'
 
 export const StoryList = (props) => {
     const [ stories, setStories ] = useState([])
@@ -30,7 +31,7 @@ export const StoryList = (props) => {
                         <div className="story__title">{story.title}</div>
                         <button className="btn btn-2 btn-sep icon-create"
                             onClick={() => {
-                                navigate( `/stories/${story.id}/update`)
+                                navigate( `/scenes/${story.id}/new`)
                         }}
                             >Edit</button>
                         <button className="btn btn-2 btn-sep icon-create"
@@ -39,7 +40,13 @@ export const StoryList = (props) => {
                         .then(() => loadStories())
                         }}
                             >Delete Story</button>
+                            <button className="btn btn-2 btn-sep icon-create"
+                                onClick={() => {
+                                    navigate( `/playthrough/${story.id}`)
+                                }}
+                                    >Play Story</button>
                     </section>
+                    
                 })
             }
             

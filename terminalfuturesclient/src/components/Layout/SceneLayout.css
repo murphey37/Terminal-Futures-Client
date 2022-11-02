@@ -1,0 +1,9 @@
+.visualizewrap{
+    display: flex;
+    justify-content:space-around
+    ; 
+}
+
+.visualize{
+    width: 400;
+}

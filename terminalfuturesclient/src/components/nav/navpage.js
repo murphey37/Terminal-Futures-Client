@@ -4,30 +4,31 @@ import "./navpage.css"
 export const NavPage = () => {
     const navigate = useNavigate()
     return (
-        <ul className="navbar">
-            
-            <li className="navbar__item">
-                BEGIN
-            </li>
-            <li className="navbar__item">
-                VIEW PROFILE
-            </li>
+        <ul className="navpage">
+            {(localStorage.getItem("lu_token") !== null) ?
+            <ul className="navpage__item">
+                <button className="nav-link fakeLink"
+                            onClick={() => {
+
+                                navigate('/stories')
+                            }}
+                        >Back to Stories</button>
+            </ul>:
+            <></>
+}
             
             {
                 (localStorage.getItem("lu_token") !== null) ?
-                    <li className="nav-item">
+                    <ul className="navpage-item">
                         <button className="nav-link fakeLink"
                             onClick={() => {
                                 localStorage.removeItem("lu_token")
-                                navigate('/login')
+                                navigate('/')
                             }}
                         >Logout</button>
-                    </li> :
+                    </ul> :
                     <></>
             }        
             </ul>
     )
 }
-{/* <li className="navbar__item">
-                <Link className="navbar__link" to="/events">Events</Link>
-            </li> */}

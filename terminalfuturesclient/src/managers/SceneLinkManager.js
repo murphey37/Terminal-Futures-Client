@@ -1,5 +1,14 @@
-export const getSceneLinks = () => {
-    return fetch("http://localhost:8000/sceneLinks", {
+export const getSceneLinks = (sceneId) => {
+    return fetch(`http://localhost:8000/sceneLinks?scene=${sceneId}`, {
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("lu_token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
+export const getSceneLink = (sceneLinkId) => {
+    return fetch(`http://localhost:8000/sceneLinks/${sceneLinkId}`, {
         headers:{
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
         }
@@ -16,7 +25,7 @@ export const createSceneLink = SceneLink => {
         },
         body: JSON.stringify(SceneLink)
         })
-        .then(getSceneLinks)
+        .then(response => response.json())
 }
 
 export const getScenes = () => {
@@ -39,8 +48,8 @@ export const updateSceneLink = sceneLink => {
     })
     };
 
-export const deleteSceneLink = sceneLink => {
-        return fetch(`http://localhost:8000/sceneLinks/${sceneLink.id}`, {
+export const deleteSceneLink = sceneId => {
+        return fetch(`http://localhost:8000/sceneLinks/${sceneId}`, {
             method: "DELETE",
             headers: {
             "Authorization": `Token ${localStorage.getItem("lu_token")}`
